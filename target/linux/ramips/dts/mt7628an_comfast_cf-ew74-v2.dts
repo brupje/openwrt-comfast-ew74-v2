@@ -1,0 +1,122 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/dts-v1/;
+
+#include "mt7628an.dtsi"
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
+
+/ {
+	compatible = "comfast,cf-ew74-v2", "mediatek,mt7628an-soc";
+	model = "Comfast CF-EW74V2";
+
+	keys {
+		compatible = "gpio-keys";
+		reset {
+			label = "reset";
+			gpios = <&gpio 38 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_RESTART>;
+		};
+	};
+
+	leds {
+
+
+		wifi {
+			label = "comfast:blue:wifi";
+			gpios = <0x10 0x0c 0x01>;
+		};
+
+		wifi0 {
+			label = "comfast:blue:wifi0";
+			gpios = <0x11 0x0b 0x01>;
+		};
+
+		wifi1 {
+			label = "comfast:blue:wifi1";
+			gpios = <0x10 0x05 0x01>;
+		};
+
+		wifi2 {
+			label = "comfast:blue:wifi2";
+			gpios = <0x10 0x0e 0x01>;
+		};
+	};
+
+	chosen {
+		bootargs = "console=ttyS0,115200";
+	};
+
+};
+
+&spi0 {
+	status = "okay";
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi_pins>, <&spi_cs1_pins>;
+
+	m25p80@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <40000000>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				label = "u-boot";
+				reg = <0x0 0x30000>;
+				read-only;
+			};
+
+			partition@30000 {
+				label = "u-boot-env";
+				reg = <0x30000 0x10000>;
+			};
+
+			factory: partition@40000 {
+				label = "factory";
+				reg = <0x40000 0x10000>;
+				read-only;
+			};
+
+			partition@50000 {
+				compatible = "denx,uimage";
+				label = "firmware";
+				reg = <0x50000 0x7B0000>;
+			};
+		};
+	};
+};
+
+
+&pcie {
+	status = "okay";
+};
+
+
+&pcie0 {
+	wifi@0,0 {
+		compatible = "mediatek,mt76";
+		reg = <0x0000 0 0 0 0>;
+		mediatek,mtd-eeprom = <&factory 0x8000>;
+        mediatek,5ghz = <0x00>;
+		ieee80211-freq-limit = <5000000 6000000>;
+		mtd-mac-address = < 0x8004>;
+		mac-address-increment = <2>;
+	};
+};
+
+&ethernet {
+	ralink,port-map = "llllw";
+};
+
+
+&wmac {
+	status = "okay";
+	mediatek,mtd-eeprom = <&factory 0x0>;
+	mediatek,5ghz = <0x00>;
+	ralink,mtd-eeprom = <0x0f 0x00>;
+};
+
