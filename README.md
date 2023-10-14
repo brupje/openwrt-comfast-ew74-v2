@@ -10,6 +10,9 @@ To upload:
 4. Upload the sysupgrade.bin image
 
 Here are some images from the inside:
+
 ![2023-10-13-23-21-21-078](https://github.com/brupje/openwrt-comfast-ew74-v2/assets/2556592/1a8e675d-d2e9-438d-a2b3-472f1cc4d5af)
-![2023-10-13-23-21-04-228](https://github.com/brupje/openwrt-comfast-ew74-v2/assets/2556592/32b0a3b6-bd12-4496-aa0f-064c9f55466e)
+
+![2023-10-13-23-21-04-228](https://github.com/brupje/openwrt-comfast-ew74-v2/assets/2556592/d3208df1-7f5e-4832-b12c-87ed3c32c9bf)
+
 ![2023-10-13-23-21-11-872](https://github.com/brupje/openwrt-comfast-ew74-v2/assets/2556592/1461297c-4297-41ac-afd1-5b4d24934094)
